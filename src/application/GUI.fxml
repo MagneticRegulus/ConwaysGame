@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-	
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
-	
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GUIController">
-	<!-- TODO Add Nodes -->
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane style="-fx-background-color: BLACK;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Main">
+   <center>
+      <Canvas fx:id="canvas" height="500.0" width="500.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+      </Canvas>
+   </center>
+   <top>
+      <HBox alignment="CENTER" maxHeight="50.0" maxWidth="500.0" minHeight="50.0" minWidth="500.0" prefHeight="50.0" prefWidth="500.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </BorderPane.margin>
+         <children>
+            <Button fx:id="genBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="240.0" layoutY="23.0" mnemonicParsing="false" onAction="#generate" style="-fx-background-color: GREY;" text="Generate" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="stepBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" style="-fx-background-color: GREY;" text="Step" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>
