@@ -53,14 +53,15 @@ public class Main extends Application {
 	}
 	
 	public void setGraphics() {
+		this.graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		this.graphics.setStroke(Color.WHITE);
-		this.graphics.strokeRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
+		//this.graphics.strokeRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
 		this.graphics.setTransform(this.affine);
 		this.graphics.setLineWidth(0.05);
-		for (int x = 1; x < this.game.getRows(); x++) {
+		for (int x = 0; x <= this.game.getRows(); x++) {
 			this.graphics.strokeLine(x, 0, x, this.game.getCols());
 		}
-		for (int y = 1; y < this.game.getCols(); y++) {
+		for (int y = 0; y <= this.game.getCols(); y++) {
 			this.graphics.strokeLine(0, y, this.game.getRows(), y);
 		}
 	}
