@@ -50,7 +50,9 @@ public class Main extends Application {
 		this.affine.appendScale(this.canvas.getWidth() / this.game.getRows(), this.canvas.getHeight() / this.game.getCols());
 		this.graphics = this.canvas.getGraphicsContext2D();
 		setGraphics();
-		this.game.generateCells(this.graphics);
+		this.game.generateCells();
+		//this.game.generateSpecial();
+		this.game.draw(this.graphics);
 	}
 	
 	public void setGraphics() {
@@ -59,12 +61,16 @@ public class Main extends Application {
 		//this.graphics.strokeRect(0, 0, this.canvas.getWidth(), this.canvas.getHeight());
 		this.graphics.setTransform(this.affine);
 		this.graphics.setLineWidth(0.05);
-		for (int x = 0; x <= this.game.getRows(); x++) {
-			this.graphics.strokeLine(x, 0, x, this.game.getCols());
-		}
-		for (int y = 0; y <= this.game.getCols(); y++) {
-			this.graphics.strokeLine(0, y, this.game.getRows(), y);
-		}
+	}
+	
+	public void step(ActionEvent event) {
+		event.consume();
+		nextRound();
+	}
+	
+	public void nextRound() {
+		this.game.updateGame();
+		this.game.draw(this.graphics);
 	}
 	
 	public static void main(String[] args) {
