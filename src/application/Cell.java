@@ -11,11 +11,12 @@ public class Cell {
 	private boolean lastState;
 	private boolean nextState;
 	private Color color;
-	private boolean updated;
+	private boolean checked;
 	
-	public Cell() {
+	public Cell(boolean state) {
+		this.checked = false;
 		this.alive = false;
-		setAlive(true);
+		setAlive(state);
 	}
 
 	public Color getColor() {
@@ -23,9 +24,9 @@ public class Cell {
 	}
 
 	public void setColor() {
-		if (this.alive && this.lastState) {
+		if (isAlive() && wasAlive()) {
 			color = STATIC;
-		} else if (this.alive) {
+		} else if (isAlive()) {
 			color = ALIVE;
 		} else {
 			color = DEAD;
@@ -56,20 +57,16 @@ public class Cell {
 
 	public void setNextState(boolean nextState) {
 		this.nextState = nextState;
-	}
-	
-	public boolean isUpdated() {
-		return updated;
+		toggleChecked();
 	}
 
-	public void setUpdated() {
-		this.updated = true;
+	public void toggleChecked() {
+		this.checked = !this.checked;
 	}
 
 	public void update() {
-		if (isUpdated()) { return; }
 		setAlive(willBeAlive());
-		setUpdated();
+		toggleChecked();
 	}
 
 }
