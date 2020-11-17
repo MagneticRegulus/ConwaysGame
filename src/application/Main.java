@@ -50,6 +50,7 @@ public class Main extends Application {
 		this.affine.appendScale(this.canvas.getWidth() / this.game.getRows(), this.canvas.getHeight() / this.game.getCols());
 		this.graphics = this.canvas.getGraphicsContext2D();
 		setGraphics();
+		this.game.generateCells(this.graphics);
 	}
 	
 	public void setGraphics() {
