@@ -31,7 +31,7 @@ public class Game {
 		for (int x = 0; x < rows; x++) {
 			for (int y = 0; y < cols; y++) {
 				rand = Math.random();
-				if (rand <= 0.05) {
+				if (rand <= 0.1) {
 					cells.put(new Point2D(x, y), new Cell(true));
 				}
 			}
