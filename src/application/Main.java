@@ -1,12 +1,17 @@
 package application;
 	
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
@@ -21,6 +26,8 @@ public class Main extends Application {
 	private GraphicsContext graphics;
 	private Game game;
 	private Affine affine;
+	private boolean running = false;
+	private Timeline animation;
 	
 	@FXML
 	private Canvas canvas; 
@@ -28,6 +35,8 @@ public class Main extends Application {
 	private Button stepBtn;
 	@FXML
 	private Button genBtn;
+	@FXML
+	private Button playBtn;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -41,10 +50,12 @@ public class Main extends Application {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void generate(ActionEvent event) {
 		event.consume();
+		newTimeline();		
 		this.game = new Game(50, this.canvas.getWidth()); //Canvas always set to square.
 		this.affine = new Affine();
 		this.affine.appendScale(this.canvas.getWidth() / this.game.getRows(), this.canvas.getHeight() / this.game.getCols());
@@ -53,6 +64,20 @@ public class Main extends Application {
 		this.game.generateCells();
 		//this.game.generateSpecial();
 		this.game.draw(this.graphics);
+	}
+	
+	public void newTimeline() {
+		KeyFrame frame = new KeyFrame(Duration.millis(128), new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent t) {
+				nextRound();
+			}
+
+		});
+	    
+	    this.animation = new Timeline(frame);
+		this.animation.setCycleCount(javafx.animation.Animation.INDEFINITE);
 	}
 	
 	public void setGraphics() {
@@ -65,12 +90,35 @@ public class Main extends Application {
 	
 	public void step(ActionEvent event) {
 		event.consume();
+		pause();
 		nextRound();
+	}
+	
+	public void togglePlay(ActionEvent event) {
+		event.consume();
+		if (running) {
+			pause();
+		} else {
+			//if (animation == null) { System.out.println("no animation"); return; }
+			animate();
+		}
 	}
 	
 	public void nextRound() {
 		this.game.updateGame();
 		this.game.draw(this.graphics);
+	}
+	
+	public void animate() {
+		running = true;
+		playBtn.setText("Pause");
+		animation.play();
+	}
+	
+	public void pause() {
+		running = false;
+		playBtn.setText("Play");
+		animation.pause();
 	}
 	
 	public static void main(String[] args) {
