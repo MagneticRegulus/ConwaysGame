@@ -59,6 +59,23 @@ public class Game {
 		}
 	}
 	
+	public void pan(int x, int y) {
+		//if moving to the left, x is positive, y is 0
+		//if moving to the up, x is 0, y is positive
+		//if moving right, x is negative, y is 0
+		//if moving down, x is 0, y is negative
+		
+		Iterator<Map.Entry<Point2D, Cell>> it = cells.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry<Point2D, Cell> pt = it.next();
+			Point2D point = pt.getKey();
+			Cell cell = cells.get(point);
+			cells.put(new Point2D(point.getX() + x, point.getY() + y), cell);
+			cells.remove(point);
+		}
+		
+	}
+	
 	public void updateGame() {
 		addDeadNeighbours();
 		//System.out.println("Added the relevant dead");
@@ -86,10 +103,10 @@ public class Game {
 				}
 			}
 		}
-		int countDead = 0;
+		//int countDead = 0;
 		for (Point2D d : dead) {
 			cells.put(d, new Cell(false));
-			countDead++;
+			//countDead++;
 		}
 		//System.out.println("Added " + countDead + " dead.");
 	}
