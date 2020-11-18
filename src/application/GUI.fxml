@@ -30,6 +30,11 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
+            <Button fx:id="playBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="278.0" layoutY="23.0" mnemonicParsing="false" onAction="#togglePlay" style="-fx-background-color: GREY;" text="Play" textFill="WHITE">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </top>
