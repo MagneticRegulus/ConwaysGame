@@ -15,15 +15,15 @@ public class Game {
 	
 	private int rows;
 	private int cols;
-	private double pix;
 	private double canSize;
+	private GraphicsContext graphics;
 	private Map<Point2D, Cell> cells = new HashMap<>();
 	
-	public Game(int dim, double size) {
+	public Game(int dim, double size, GraphicsContext g) {
 		this.rows = dim;
 		this.cols = dim;
-		this.pix = size;
 		this.canSize = size;
+		this.graphics = g;
 	}
 	
 	public void generateCells() {
@@ -44,13 +44,17 @@ public class Game {
 		cells.put(new Point2D(24, 25), new Cell(true));
 	}
 	
-	public void draw(GraphicsContext graphics) {
+	public void draw() {
 		graphics.clearRect(0, 0, canSize, canSize);
 		for (Point2D pt : cells.keySet()) {
 			graphics.setFill(cells.get(pt).getColor());
 			graphics.fillRect(pt.getX(), pt.getY(), 1, 1);
 		}
 		
+		drawGrid();
+	}
+	
+	public void drawGrid() {
 		for (int x = 0; x <= rows; x++) {
 			graphics.strokeLine(x, 0, x, cols);
 		}
@@ -64,16 +68,15 @@ public class Game {
 		//if moving to the up, x is 0, y is positive
 		//if moving right, x is negative, y is 0
 		//if moving down, x is 0, y is negative
-		
+		Map<Point2D, Cell> tempCells = new HashMap<>();
 		Iterator<Map.Entry<Point2D, Cell>> it = cells.entrySet().iterator();
 		while (it.hasNext()) {
-			Map.Entry<Point2D, Cell> pt = it.next();
-			Point2D point = pt.getKey();
-			Cell cell = cells.get(point);
-			cells.put(new Point2D(point.getX() + x, point.getY() + y), cell);
-			cells.remove(point);
+			Point2D point = it.next().getKey();
+			tempCells.put(new Point2D(point.getX() + x, point.getY() + y), cells.get(point));
 		}
 		
+		cells.clear();
+		cells = tempCells;
 	}
 	
 	public void updateGame() {
@@ -165,10 +168,6 @@ public class Game {
 			Map.Entry<Point2D, Cell> pt = it.next();
 			if (!pt.getValue().isAlive()) { it.remove(); }
 		}
-	}
-	
-	public double getPix() {
-		return pix;
 	}
 
 	public int getRows() {
