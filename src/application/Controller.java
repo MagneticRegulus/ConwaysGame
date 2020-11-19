@@ -39,6 +39,8 @@ public class Controller implements Initializable {
 	@FXML
 	private Button playBtn;
 	@FXML
+	private Button clearBtn;
+	@FXML
 	private BorderPane root;
 
 	@Override
@@ -107,8 +109,9 @@ public class Controller implements Initializable {
 	
 	public void generate(ActionEvent event) {
 		event.consume();
-		newGame();
+		pause();
 		setGraphics();
+		this.game.clearGrid();
 		this.game.generateCells();
 		this.game.draw();
 		root.requestFocus();
@@ -133,9 +136,15 @@ public class Controller implements Initializable {
 		if (running) {
 			pause();
 		} else {
-			// if (animation == null) { System.out.println("no animation"); return; }
 			animate();
 		}
+		root.requestFocus();
+	}
+	
+	public void clearAndPause(ActionEvent event) {
+		event.consume();
+		pause();
+		this.game.clearGrid();
 		root.requestFocus();
 	}
 
