@@ -15,6 +15,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Affine;
@@ -75,7 +76,17 @@ public class Controller implements Initializable {
 
 		};
 		
-		//root.setOnMouseClicked(event -> root.requestFocus());
+		EventHandler<MouseEvent> click = new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				game.toggleCell(event.getX(), event.getY());
+				
+			}
+			
+		};
+		
+		canvas.setOnMouseClicked(click);
 		root.setOnKeyPressed(panCanvas);
 		
 	}

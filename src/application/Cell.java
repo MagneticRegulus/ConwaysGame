@@ -68,5 +68,9 @@ public class Cell {
 		setAlive(willBeAlive());
 		toggleChecked();
 	}
+	
+	public void toggle() {
+		setAlive(!alive);
+	}
 
 }

@@ -17,12 +17,14 @@ public class Game {
 	private int cols;
 	private double canSize;
 	private GraphicsContext graphics;
+	private double ratio;
 	private Map<Point2D, Cell> cells = new HashMap<>();
 	
 	public Game(int dim, double size, GraphicsContext g) {
 		this.rows = dim;
 		this.cols = dim;
 		this.canSize = size;
+		this.ratio = size / dim; 
 		this.graphics = g;
 	}
 	
@@ -32,10 +34,24 @@ public class Game {
 			for (int y = 0; y < cols; y++) {
 				rand = Math.random();
 				if (rand <= 0.1) {
-					cells.put(new Point2D(x, y), new Cell(true));
+					addCell(new Point2D(x, y));
 				}
 			}
 		}
+	}
+	
+	public void addCell(Point2D point) {
+		cells.put(point, new Cell(true));
+	}
+	
+	public void toggleCell(double x, double y) {
+		Point2D point = new Point2D(Math.floor(x / ratio), Math.floor(y / ratio));
+		if (cells.containsKey(point)) {
+			cells.get(point).toggle();
+		} else {
+			addCell(point);
+		}
+		draw();
 	}
 	
 	public void generateSpecial() {
@@ -61,6 +77,11 @@ public class Game {
 		for (int y = 0; y <= cols; y++) {
 			graphics.strokeLine(0, y, rows, y);
 		}
+	}
+	
+	public void clearGrid() {
+		cells.clear();
+		draw();
 	}
 	
 	public void pan(int x, int y) {

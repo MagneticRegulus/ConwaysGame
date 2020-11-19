@@ -4,10 +4,10 @@
 - [ ] "New" button, starts new `Game` with an empty grid
 - [ ] Consider adding living points to a `Set` - when displayed iterate over these
 - [ ] Consider removing dead cells whenever the `cells` `HashMap` has more coordinates than the grid (currently 50 x 50) - hopefully, this will keep the program running indefinitely
-- [ ] Tutorial on using JavaFX + FXML + Using a proper Controller
-- [ ] Fix code based on tutorial
-- [ ] Place living cells onto grid - do research or figure it out via printing to console
-- [ ] Pan using arrow keys / drag canvas?
+- [x] Tutorial on using JavaFX + FXML + Using a proper Controller
+- [x] Fix code based on tutorial
+- [x] Place living cells onto grid - do research or figure it out via printing to console
+- [x] Pan using arrow keys / drag canvas?
 - [ ] Load pattern files - ask classmate for link if they have it
 
 ## Journal
