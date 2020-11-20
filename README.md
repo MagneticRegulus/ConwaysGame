@@ -85,3 +85,4 @@ I also spent some time by myself figuring out the formula for getting the cell c
 I also added a "Clear" funcion and button. Now, pressing the Clear button empties `cells`, displays a blank screen, and pauses the animation. This same function is used when generating random cells rather than creating a new game every time. 
 
 ### Day 5
+Completed some research on rle files and how to load patterns. Unfortunately, ran out of time during the day to complete. Will resume at a later date. Added a PatternFile class to hold these details and gather the pattern details.
