@@ -1,6 +1,7 @@
 package application;
 
 import java.awt.Event;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,22 +14,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Affine;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.Duration;
 
 public class Controller implements Initializable {
-	
+
 	private static final int PAN_DISTANCE = 10;
 	private GraphicsContext graphics;
 	private Game game;
 	private Affine affine;
 	private boolean running = false;
 	private Timeline animation;
+	private PatternFile pattern;
 
 	@FXML
 	private Canvas canvas;
@@ -41,12 +47,18 @@ public class Controller implements Initializable {
 	@FXML
 	private Button clearBtn;
 	@FXML
+	private Button loadBtn;
+	@FXML
 	private BorderPane root;
+	@FXML
+	private Text nameTxt;
+	@FXML
+	private Hyperlink hpLink;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		openApp();
-		
+
 		KeyFrame frame = new KeyFrame(Duration.millis(128), new EventHandler<ActionEvent>() {
 
 			@Override
@@ -58,11 +70,11 @@ public class Controller implements Initializable {
 
 		this.animation = new Timeline(frame);
 		this.animation.setCycleCount(javafx.animation.Animation.INDEFINITE);
-		
+
 		EventHandler<KeyEvent> panCanvas = new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent keyEvent) {
-				
+
 				if (keyEvent.getCode() == KeyCode.LEFT) {
 					game.pan(PAN_DISTANCE, 0);
 				} else if (keyEvent.getCode() == KeyCode.UP) {
@@ -72,27 +84,27 @@ public class Controller implements Initializable {
 				} else if (keyEvent.getCode() == KeyCode.DOWN) {
 					game.pan(0, -PAN_DISTANCE);
 				}
-				
+
 				game.draw();
 			}
 
 		};
-		
+
 		EventHandler<MouseEvent> click = new EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				game.toggleCell(event.getX(), event.getY());
-				
+
 			}
-			
+
 		};
-		
+
 		canvas.setOnMouseClicked(click);
 		root.setOnKeyPressed(panCanvas);
-		
+
 	}
-	
+
 	public void openApp() {
 		this.graphics = this.canvas.getGraphicsContext2D();
 		newGame();
@@ -102,11 +114,11 @@ public class Controller implements Initializable {
 		setGraphics();
 		this.game.drawGrid();
 	}
-	
+
 	public void newGame() {
 		this.game = new Game(50, this.canvas.getWidth(), this.graphics); // Canvas always set to square.
 	}
-	
+
 	public void generate(ActionEvent event) {
 		event.consume();
 		pause();
@@ -139,11 +151,27 @@ public class Controller implements Initializable {
 		}
 		root.requestFocus();
 	}
-	
+
 	public void clearAndPause(ActionEvent event) {
 		event.consume();
 		pause();
 		this.game.clearGrid();
+		root.requestFocus();
+	}
+
+	public void loadFile(ActionEvent event) {
+		event.consume();
+		pause();
+		this.game.clearGrid();
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Open Resource File");
+		fileChooser.getExtensionFilters().add(new ExtensionFilter("Run Length Encoded", "*.rle"));
+		File selectedFile = fileChooser.showOpenDialog(canvas.getScene().getWindow());
+		this.pattern = new PatternFile(selectedFile, this.game.getRows(), this.game.getCols());
+		this.pattern.getName();
+		this.pattern.getLink();
+		this.pattern.loadGame(this.game);
+		this.game.draw();
 		root.requestFocus();
 	}
 
