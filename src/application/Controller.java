@@ -110,7 +110,6 @@ public class Controller implements Initializable {
 	public void generate(ActionEvent event) {
 		event.consume();
 		pause();
-		setGraphics();
 		this.game.clearGrid();
 		this.game.generateCells();
 		this.game.draw();
