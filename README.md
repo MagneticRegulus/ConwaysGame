@@ -1,7 +1,7 @@
 # Conway's Game of Life
 
 ## To Do:
-- [ ] "New" button, starts new `Game` with an empty grid
+- [x] "New" button, starts new `Game` with an empty grid
 - [ ] Consider adding living points to a `Set` - when displayed iterate over these
 - [ ] Consider removing dead cells whenever the `cells` `HashMap` has more coordinates than the grid (currently 50 x 50) - hopefully, this will keep the program running indefinitely
 - [x] Tutorial on using JavaFX + FXML + Using a proper Controller
@@ -9,6 +9,8 @@
 - [x] Place living cells onto grid - do research or figure it out via printing to console
 - [x] Pan using arrow keys / drag canvas?
 - [ ] Load pattern files - ask classmate for link if they have it
+- [ ] Allow the canvas to grow?
+- [ ] Zoom in and out?
 
 ## Journal
 
@@ -72,6 +74,14 @@ Added a new button that would animate the game for me. Toward the end of the day
 It was at this point, when adding in new `EventHandlers` that did not have an associated button that I started to struggle accessing parts of the FXML code. I tried implementing a way to pan around using the arrow keys, but I could never access the scene. I will look at some tutorials on Day 4 to help with this.
 
 ### Day 4
+I got started later in the day than anticipated, but was still able to make great improvement. After watching a few videos by thenewboston on Youtube ([1](https://www.youtube.com/watch?v=LMdjhuYSrqg) & [2](https://www.youtube.com/watch?v=RojHZhj3UQA)), I gathered a better understanding of how to use a Controller separate from the Main `Application` class and was able to quickly move forward. I also needed to refer to [this StackOverflow thread](https://stackoverflow.com/questions/36754063/java-fx-scene-builder-how-to-make-event-key-pressed) to further solidify everything for me.
 
+Taking some code that wasn't working correctly the day prior, I was able to verify my key presses were working. Unfortunately, my  arrow keys weren't playing along (they were cycling through the buttons instead). I found [this StackOverflow thread](https://stackoverflow.com/questions/49288049/keyevents-not-firing-in-javafx) which taught me about refocusing panes. This eventually solved my problem.
+
+Using the arrow keys, users can now pan around the canvas. Upon hitting an arrow key, the `cells` `HashMap` will be iterated through. A new point a set distance away from the current point (depending on the direction) will be created as a key a new `HashMap` with the cell set as its value. `cells` will be cleared and set to this new `HashMap`. I was surprised how well this worked. The animation did not need to be paused in order for the panning to work correctly.
+
+I also spent some time by myself figuring out the formula for getting the cell coordinates for mouse clicks on the canvas. Once this was figured out, it was fairly easy implement a cell on or off toggle.
+
+I also added a "Clear" funcion and button. Now, pressing the Clear button empties `cells`, displays a blank screen, and pauses the animation. This same function is used when generating random cells rather than creating a new game every time. 
 
 ### Day 5
